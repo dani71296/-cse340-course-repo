@@ -48,6 +48,12 @@ app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
     res.render('projects', { title });
 });
+// Ruta para la página de categorías
+app.get('/categories', (req, res) => {
+    res.render('categories', {
+        title: 'Service Project Categories'
+    });
+});
 
 
 app.listen(PORT, () => {
