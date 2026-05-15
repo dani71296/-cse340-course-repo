@@ -1,3 +1,4 @@
+import { getAllProjects } from './src/models/projects.js';
 import { getAllOrganizations } from './src/models/organizations.js';
 import { testConnection } from './src/models/db.js';
 import { fileURLToPath } from 'url';
@@ -11,6 +12,7 @@ const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 
 const app = express();
@@ -48,9 +50,19 @@ app.get('/organizations', async (req, res) => {
     res.render('organizations', { title, organizations });
 });
 
+// 2. RUTA DE PROYECTOS CORREGIDA (Solo una y con lógica de BD)
 app.get('/projects', async (req, res) => {
-    const title = 'Service Projects';
-    res.render('projects', { title });
+    try {
+        const title = 'Service Projects';
+        // Obtenemos los proyectos con el JOIN de la organización
+        const projects = await getAllProjects();
+
+        // Enviamos 'projects' a la vista EJS
+        res.render('projects', { title, projects });
+    } catch (error) {
+        console.error("Error to obtain projects:", error);
+        res.status(500).send("internal error from server");
+    }
 });
 // Ruta para la página de categorías
 app.get('/categories', (req, res) => {
