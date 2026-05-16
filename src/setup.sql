@@ -87,3 +87,73 @@ INSERT INTO service_project (organization_id, title, description, location, proj
 
 select * FROM service_project;
 SELECT * FROM service_project WHERE organization_id = 2;
+
+
+
+-- ========================================
+-- 4. Crear la tabla de CATEGORIES
+-- ========================================
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,        -- Clave primaria auto-incremental
+    name VARCHAR(100) NOT NULL UNIQUE     -- Nombre único obligatorio
+);
+
+-- ========================================
+-- 5. Crear la tabla intermedia para la relación Muchos a Muchos
+-- ========================================
+CREATE TABLE project_category (
+    project_id INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    CONSTRAINT fk_project
+        FOREIGN KEY (project_id) 
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_category
+        FOREIGN KEY (category_id) 
+        REFERENCES category(category_id)
+        ON DELETE CASCADE
+);
+
+-- ========================================
+-- 6. Insertar al menos 3 categorías relevantes
+-- ========================================
+INSERT INTO category (name) VALUES 
+('Environmental'),
+('Educational'),
+('Community Service'),
+('Health and Wellness')
+ON CONFLICT (name) DO NOTHING;
+
+-- ========================================
+-- 7. Asociar cada proyecto con al menos una categoría
+-- ========================================
+-- (Mapeo de los 15 proyectos que insertaste arriba)
+INSERT INTO project_category (project_id, category_id) VALUES
+-- Proyectos de BrightFuture Builders (IDs 1-5) -> Construcción (1), Educación (2)
+(1, 1), (1, 3), 
+(2, 1), 
+(3, 1), (3, 4), 
+(4, 1), 
+(5, 2),
+
+-- Proyectos de GreenHarvest Growers (IDs 6-10) -> Medio Ambiente (3), Educación (2)
+(6, 3), 
+(7, 2), (7, 3), 
+(8, 3), 
+(9, 3), 
+(10, 3),
+
+-- Proyectos de UnityServe Volunteers (IDs 11-15) -> Asistencia Social (4), Educación (2), Medio Ambiente (3)
+(11, 4), (11, 2), 
+(12, 2), 
+(13, 3), 
+(14, 4), 
+(15, 2)
+ON CONFLICT DO NOTHING;
+
+-- Verificación de categorías
+SELECT * FROM category;
+
+
+

@@ -1,3 +1,4 @@
+import { getAllCategories } from './src/models/categories.js'
 import { getAllProjects } from './src/models/projects.js';
 import { getAllOrganizations } from './src/models/organizations.js';
 import { testConnection } from './src/models/db.js';
@@ -65,10 +66,18 @@ app.get('/projects', async (req, res) => {
     }
 });
 // Ruta para la página de categorías
-app.get('/categories', (req, res) => {
-    res.render('categories', {
-        title: 'Service Project Categories'
-    });
+app.get('/categories', async (req, res) => {
+    try {
+        const title = 'Projects';
+        // Obtenemos los proyectos con el JOIN de la organización
+        const categories = await getAllCategories();
+
+        // Enviamos 'categories' a la vista EJS
+        res.render('categories', { title, categories });
+    } catch (error) {
+        console.error("Error to obtain categories:", error);
+        res.status(500).send("internal error from server");
+    }
 });
 
 
