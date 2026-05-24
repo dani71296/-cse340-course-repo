@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+    <main>
+        <h1>
+            <%= organization.name %>
+        </h1>
+
+        <p><strong>Description:</strong>
+            <%= organization.description %>
+        </p>
+        <p><strong>Contact Email:</strong> <a href="mailto:<%= organization.contact_email %>">
+                <%= organization.contact_email %>
+            </a></p>
+
+        <% if (organization.logo_filename) { %>
+            <p><img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> Logo"
+                    style="max-width: 200px; height: auto; margin: 15px 0;"></p>
+            <% } %>
+
+                <hr style="margin: 25px 0; border: 0; border-top: 1px solid #ccc;">
+
+                <h2>Our Service Projects</h2>
+                <ul class="organization-projects">
+                    <% if (projects && projects.length> 0) { %>
+                        <% projects.forEach(project=> { %>
+                            <li>
+                                <a href="/project/<%= project.project_id %>" style="font-weight: bold;">
+                                    <%= project.title %>
+                                </a>
+                                <small style="color: #666; margin-left: 10px;">
+                                    (<%= new Date(project.project_date).toLocaleDateString('en-US', { month: 'short' ,
+                                        day: 'numeric' , year: 'numeric' }) %>)
+                                </small>
+                            </li>
+                            <% }); %>
+                                <% } else { %>
+                                    <li>No projects registered for this organization yet.</li>
+                                    <% } %>
+                </ul>
+
+                <p style="margin-top: 30px;"><a href="/organizations">← Back to All Organizations</a></p>
+    </main>
+
+    <%- include('partials/footer') %>
