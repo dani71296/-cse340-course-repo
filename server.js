@@ -3,6 +3,8 @@ import { testConnection } from './src/models/db.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import express from 'express';
+import session from 'express-session';
+import flash from './src/middleware/flash.js';
 
 // Define the the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -11,10 +13,23 @@ const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
 
 
 const app = express();
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// Set up session management
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
+}));
+// Use flash message middleware
+app.use(flash);
 
 /**
   * Configure Express middleware
@@ -33,7 +48,7 @@ app.set('views', path.join(__dirname, 'src/views'));
 
 // Middleware to log all incoming requests
 app.use((req, res, next) => {
-    if (NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
         console.log(`${req.method} ${req.url}`);
     }
     next(); // Pass control to the next middleware or route

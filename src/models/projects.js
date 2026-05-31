@@ -78,11 +78,52 @@ const getProjectDetails = async (id) => {
   const result = await db.query(query, [id]);
   return result.rows[0]; // Retorna solo el primer objeto (o undefined si no existe)
 };
+const createProject = async (title, description, location, date, organizationId) => {
+  // CORRECCIÓN: Usamos la tabla 'public.service_project' y la columna 'project_date'
+  const query = `
+      INSERT INTO public.service_project (title, description, location, project_date, organization_id)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING project_id;
+    `;
 
-// Export all the model functions (Actualizado con las dos nuevas funciones)
+  const queryParams = [title, description, location, date, organizationId];
+  const result = await db.query(query, queryParams);
+
+  if (result.rows.length === 0) {
+    throw new Error('Failed to create project');
+  }
+
+  if (process.env.ENABLE_SQL_LOGGING === 'true') {
+    console.log('Created new project with ID:', result.rows[0].project_id);
+  }
+
+  return result.rows[0].project_id;
+}
+// Agrega esta función al final de src/models/projects.js
+const updateProject = async (id, title, description, location, date, organizationId) => {
+  const query = `
+    UPDATE public.service_project
+    SET title = $1, description = $2, location = $3, project_date = $4, organization_id = $5
+    WHERE project_id = $6
+    RETURNING project_id;
+  `;
+
+  const queryParams = [title, description, location, date, organizationId, id];
+  const result = await db.query(query, queryParams);
+
+  if (result.rows.length === 0) {
+    throw new Error('Project update failed: Project not found.');
+  }
+
+  return result.rows[0].project_id;
+};
+
+// Recuerda agregar 'updateProject' dentro del bloque export del final:
 export {
   getAllProjects,
   getProjectsByOrganizationId,
   getUpcomingProjects,
-  getProjectDetails
+  getProjectDetails,
+  createProject,
+  updateProject // <-- Añadido aquí
 };

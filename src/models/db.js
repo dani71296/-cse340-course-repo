@@ -12,11 +12,13 @@ import { Pool } from 'pg';
  * postgresql://username:password@host:port/database
  */
 const pool = new Pool({
+
     connectionString: process.env.DB_URL,
-    // Modificamos esta sección para aceptar el certificado en producción
-    ssl: process.env.NODE_ENV === 'production'
-        ? { rejectUnauthorized: false }
-        : false
+
+    ssl: {
+        rejectUnauthorized: false
+    }
+
 });
 
 /**

@@ -147,3 +147,58 @@ footer {
         font-size: 1.8rem;
     }
 }
+/* ==========================================
+   Estilos para Mensajes Flash
+   ========================================== */
+
+/* Quita los puntos y márgenes de la lista <ul> */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 15px auto;
+    max-width: 800px;
+    /* Centra el contenido y evita que se estire demasiado */
+    width: 90%;
+}
+
+/* Estilo base para cada mensaje */
+.flash-message {
+    padding: 14px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    /* Bordes más modernos y redondeados */
+    font-size: 0.95rem;
+    font-family: sans-serif;
+    font-weight: 500;
+    border: 1px solid;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* Sombra sutil para darle profundidad */
+}
+
+/* Variación: Éxito (Verde) */
+.flash-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+/* Variación: Error / Peligro (Rojo) */
+.flash-message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Variación: Advertencia (Amarillo) */
+.flash-message.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+/* Variación: Información (Azul) */
+.flash-message.info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}

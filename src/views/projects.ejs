@@ -1,5 +1,11 @@
 <%- include('partials/header') %>
     <main>
+        <p>
+            <a href="/new-project"
+                style="display: inline-block; background-color: #28a745; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; margin-bottom: 15px;">
+                ➕ Add a New Service Project
+            </a>
+        </p>
         <h1>
             <%= title %>
         </h1>
@@ -7,19 +13,26 @@
         <ul>
             <% if (projects && projects.length> 0) { %>
                 <% projects.forEach(project=> { %>
-                    <li>
+                    <li style="margin-bottom: 15px;">
                         <strong>
                             <%= new Date(project.project_date).toLocaleDateString('en-US', { month: 'short' ,
                                 day: 'numeric' , year: 'numeric' }) %>:
                         </strong>
 
-                        <a href="/project/<%= project.project_id %>">
+                        <a href="/project/<%= project.project_id %>" style="font-weight: bold;">
                             <%= project.title %>
                         </a>
 
                         (<a href="/organization/<%= project.organization_id %>">
                             <%= project.organization_name %>
                         </a>)
+
+                        <span style="margin-left: 10px;">
+                            <a href="/assign-categories/<%= project.project_id %>"
+                                style="display: inline-block; background-color: #007bff; color: white; padding: 3px 8px; border-radius: 4px; text-decoration: none; font-size: 0.85em; font-weight: bold;">
+                                ✏️ Edit Categories
+                            </a>
+                        </span>
                     </li>
                     <% }); %>
                         <% } else { %>
