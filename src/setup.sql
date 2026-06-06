@@ -154,6 +154,39 @@ ON CONFLICT DO NOTHING;
 
 -- Verificación de categorías
 SELECT * FROM category;
+-- 1. Crear la tabla de roles
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+-- 2. Insertar los roles por defecto
+INSERT INTO roles (role_name, role_description) VALUES 
+    ('user', 'Standard user with basic access'),
+    ('admin', 'Administrator with full system access');
+
+-- 3. Verificar que se guardaron correctamente
+SELECT * FROM roles;
+
+-- 4. Crear la tabla de usuarios vinculada a los roles
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 1. Insertar un usuario de prueba apuntando al role_id 1 (que es 'user')
+INSERT INTO users (name, email, password_hash, role_id) 
+VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
+
+-- 2. Consultar usando un JOIN para ver la información unificada de ambas tablas
+SELECT u.user_id, u.name, u.email, r.role_name, r.role_description
+FROM users u
+JOIN roles r ON u.role_id = r.role_id;
 
 
 

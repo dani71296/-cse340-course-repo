@@ -15,8 +15,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
-
-
 const app = express();
 // Allow Express to receive and process common POST data
 app.use(express.urlencoded({ extended: true }));
@@ -44,8 +42,6 @@ app.set('view engine', 'ejs');
 // Tell Express where to find your templates
 app.set('views', path.join(__dirname, 'src/views'));
 
-
-
 // Middleware to log all incoming requests
 app.use((req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
@@ -53,8 +49,14 @@ app.use((req, res, next) => {
     }
     next(); // Pass control to the next middleware or route
 });
-// Middleware to make NODE_ENV available to all templates
+
+// 🛠️ CORREGIDO: Middleware unificado antes de las rutas
+// Define de forma segura e inyecta isLoggedIn y NODE_ENV a TODAS las vistas
 app.use((req, res, next) => {
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
@@ -79,11 +81,15 @@ app.use((err, req, res, next) => {
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
 
+    // 🛠️ CORREGIDO: Inyección de seguridad por si falla una ruta crítica
+    const isLoggedIn = (req.session && req.session.user) ? true : false;
+
     // Prepare data for the template
     const context = {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: err.message,
-        stack: err.stack
+        stack: err.stack,
+        isLoggedIn: isLoggedIn // 👈 Se envía explícitamente para salvar el header.ejs en vistas de error
     };
 
     // Render the appropriate error template

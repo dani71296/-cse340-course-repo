@@ -1,6 +1,15 @@
 import express from 'express';
 import { showHomePage } from './controllers/index.js';
 import { testErrorPage } from './controllers/errors.js';
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,       // <-- Añadido para el Paso 3
+    processLoginForm,    // <-- Añadido para el Paso 3
+    processLogout,        // <-- Añadido para el Paso 3
+    requireLogin,
+    showDashboard
+} from './controllers/users.js';
 
 // UNIFICADO: Importaciones de categorías (¡CORREGIDO: Añadidas funciones de creación y edición!)
 import {
@@ -87,5 +96,16 @@ router.post('/new-category', categoryValidation, processNewCategoryForm);
 
 router.get('/edit-category/:id', showEditCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+
+// 2. Rutas para el registro de usuarios
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+// 👈 NUEVO: Rutas agregadas según las instrucciones de la actividad
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+// Al poner 'requireLogin' primero, Express validará la sesión antes de mostrar el dashboard
+router.get('/dashboard', requireLogin, showDashboard);
 
 export default router;
