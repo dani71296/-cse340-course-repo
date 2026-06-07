@@ -58,6 +58,10 @@ app.use((req, res, next) => {
         res.locals.isLoggedIn = true;
     }
     res.locals.NODE_ENV = NODE_ENV;
+
+    // 👈 ESTA ES LA LÍNEA NUEVA QUE DEBES AGREGAR EN LA LÍNEA 58:
+    res.locals.user = req.session.user || null;
+
     next();
 });
 

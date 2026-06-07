@@ -28,7 +28,10 @@
         </ul>
 
         <p style="margin-top: 25px;"><a href="/categories">← Back to All Categories</a></p>
-        <a href="/edit-category/<%= category.category_id %>" class="btn btn-edit">Edit Category</a>
+
+        <% if (user && user.role_name==='admin' ) { %>
+            <a href="/edit-category/<%= category.category_id %>" class="btn btn-edit">Edit Category</a>
+            <% } %>
     </main>
 
     <%- include('partials/footer') %>

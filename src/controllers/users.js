@@ -111,6 +111,30 @@ const showDashboard = async (req, res) => {
         email: email
     });
 };
+
+/**
+ * Step 7: Middleware factory to require specific role for route access
+ * Returns middleware that checks if user has the required role
+ */
+const requireRole = (role) => {
+    return (req, res, next) => {
+        // 4. Verificar si el usuario ha iniciado sesión primero
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in to access this page.');
+            return res.redirect('/login');
+        }
+
+        // 4. Verificar si el rol del usuario coincide con el rol requerido
+        if (req.session.user.role_name !== role) {
+            // 6. Si no tiene el rol, pone mensaje de error y redirige a la raíz /
+            req.flash('error', 'You do not have permission to access this page.');
+            return res.redirect('/');
+        }
+
+        // 5. El usuario tiene el rol requerido, continuar
+        next();
+    };
+};
 // 👈 Exportamos absolutamente todas las funciones que usarán tus rutas
 export {
     showUserRegistrationForm,
@@ -119,5 +143,6 @@ export {
     processLoginForm,
     processLogout,
     requireLogin,
-    showDashboard
+    showDashboard,
+    requireRole
 };
