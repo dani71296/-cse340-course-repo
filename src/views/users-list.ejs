@@ -30,8 +30,8 @@
                                 <%= userItem.email %>
                             </td>
                             <td style="padding: 12px; border: 1px solid #ddd;">
-                                <span class="role-badge"
-                                    style="padding: 4px 8px; border-radius: 4px; font-size: 0.9em; font-weight: bold; background-color: <%= userItem.role_name === 'admin' ? '#d4edda; color: #155724;' : '#e2e3e5; color: #383d41;' %>">
+                                <span
+                                    class="role-badge <%= userItem.role_name === 'admin' ? 'badge-admin' : 'badge-user' %>">
                                     <%= userItem.role_name.toUpperCase() %>
                                 </span>
                             </td>

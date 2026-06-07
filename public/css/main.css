@@ -202,3 +202,23 @@ footer {
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
+/* ==========================================================================
+   Admin Management - Users List Badges
+   ========================================================================== */
+.role-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge-admin {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge-user {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
