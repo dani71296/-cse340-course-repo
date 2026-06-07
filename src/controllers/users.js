@@ -1,6 +1,6 @@
 // src/controllers/users.js
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js'; // 👈 Agrupamos los imports del mismo archivo de forma limpia
+import { createUser, authenticateUser, getAllUsersWithRoles } from '../models/users.js'; // 👈 Agrupamos los imports del mismo archivo de forma limpia
 
 // ==========================================
 // RUTAS DE REGISTRO (Tus funciones actuales)
@@ -135,6 +135,20 @@ const requireRole = (role) => {
         next();
     };
 };
+
+// Renderizar la lista de usuarios (Solo para Admins)
+const showAllUsers = async (req, res, next) => {
+    try {
+        const usersList = await getAllUsersWithRoles();
+
+        res.render('users-list', {
+            title: 'Registered Users Management',
+            users: usersList
+        });
+    } catch (error) {
+        next(error); // Si algo falla, lo mandamos al manejador global de errores (500)
+    }
+};
 // 👈 Exportamos absolutamente todas las funciones que usarán tus rutas
 export {
     showUserRegistrationForm,
@@ -144,5 +158,6 @@ export {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showAllUsers
 };

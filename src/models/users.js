@@ -64,4 +64,23 @@ const authenticateUser = async (email, password) => {
 
     return null; // Contraseña incorrecta
 };
-export { createUser, authenticateUser };
+// Obtener todos los usuarios con sus nombres de rol
+const getAllUsersWithRoles = async () => {
+    try {
+        const query = `
+            SELECT u.user_id, u.name, u.email, r.role_name 
+            FROM users u
+            JOIN roles r ON u.role_id = r.role_id
+            ORDER BY u.name ASC
+        `;
+        const result = await db.query(query);
+        return result.rows;
+    } catch (error) {
+        console.error('Error en getAllUsersWithRoles:', error);
+        throw error;
+    }
+};
+
+
+
+export { createUser, authenticateUser, getAllUsersWithRoles };

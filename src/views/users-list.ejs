@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+
+    <main class="container">
+        <h1>
+            <%= title %>
+        </h1>
+        <p>A comprehensive list of all accounts currently registered in the Service Network system.</p>
+
+        <table class="users-table"
+            style="width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <thead>
+                <tr style="background-color: #007bff; color: white; text-align: left;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">User ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Name</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Email (Username)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (users && users.length> 0) { %>
+                    <% users.forEach(userItem=> { %>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 12px; border: 1px solid #ddd;">
+                                <%= userItem.user_id %>
+                            </td>
+                            <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">
+                                <%= userItem.name %>
+                            </td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">
+                                <%= userItem.email %>
+                            </td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">
+                                <span class="role-badge"
+                                    style="padding: 4px 8px; border-radius: 4px; font-size: 0.9em; font-weight: bold; background-color: <%= userItem.role_name === 'admin' ? '#d4edda; color: #155724;' : '#e2e3e5; color: #383d41;' %>">
+                                    <%= userItem.role_name.toUpperCase() %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" style="padding: 12px; text-align: center;">No users registered.</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 30px;"><a href="/dashboard">← Back to Dashboard</a></p>
+    </main>
+
+    <%- include('partials/footer') %>

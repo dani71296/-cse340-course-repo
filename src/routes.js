@@ -9,7 +9,8 @@ import {
     processLogout,        // <-- Añadido para el Paso 3
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showAllUsers
 } from './controllers/users.js';
 
 // UNIFICADO: Importaciones de categorías (¡CORREGIDO: Añadidas funciones de creación y edición!)
@@ -108,5 +109,7 @@ router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 // Al poner 'requireLogin' primero, Express validará la sesión antes de mostrar el dashboard
 router.get('/dashboard', requireLogin, showDashboard);
+// Ruta para ver usuarios (Protegida: Debe estar logueado Y ser admin)
+router.get('/users', requireLogin, requireRole('admin'), showAllUsers);
 
 export default router;

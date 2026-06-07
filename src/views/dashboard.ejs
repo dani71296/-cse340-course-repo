@@ -11,6 +11,16 @@
             <p><strong>Email Address:</strong>
                 <%= email %>
             </p>
+
+            <% if (user && user.role_name==='admin' ) { %>
+                <div class="admin-actions" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <h3>🛡️ Admin Management Tools</h3>
+                    <a href="/users" class="btn btn-admin"
+                        style="display: inline-block; background-color: #6c757d; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold;">
+                        👥 Manage Registered Users
+                    </a>
+                </div>
+                <% } %>
         </div>
     </main>
 
