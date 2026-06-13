@@ -1,15 +1,19 @@
 // src/controllers/projects.js
 // Import any needed model functions (Actualizado con las nuevas funciones)
-// CORRECCIÓN: Agregamos 'createProject' a las importaciones del modelo
-import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
-// IMPORTANTE: Importamos la función para obtener las categorías de este proyecto
+
+import {
+    getUpcomingProjects,
+    getProjectDetails,
+    createProject,
+    updateProject,
+    addVolunteer,                 
+    removeVolunteer,              
+    isUserVolunteering            
+} from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
-
-// CORRECCIÓN: Importamos express-validator para sanitizar y validar en el servidor
 import { body, validationResult } from 'express-validator';
 
-// Constant to limit the number of upcoming projects to display
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 // =========================================================================
@@ -36,17 +40,16 @@ const projectValidation = [
         .isInt().withMessage('Organization must be a valid integer')
 ];
 
-// Define any controller functions
 
 const showProjectsPage = async (req, res, next) => {
     try {
-        // Llamamos a la nueva función pasando la constante 5
+       
         const projects = await getUpcomingProjects(NUMBER_OF_UPCOMING_PROJECTS);
-        const title = 'Upcoming Service Projects'; // Título actualizado según requerimiento
+        const title = 'Upcoming Service Projects'; 
 
         res.render('projects', { title, projects });
     } catch (error) {
-        next(error); // Pasa el error al manejador global en server.js
+        next(error);
     }
 };
 
@@ -54,7 +57,7 @@ const showProjectDetailsPage = async (req, res, next) => {
     try {
         const projectId = req.params.id;
 
-        // Ejecutamos la búsqueda del proyecto y de sus categorías en paralelo
+       
         const [project, categories] = await Promise.all([
             getProjectDetails(projectId),
             getCategoriesByProjectId(projectId)
@@ -66,10 +69,21 @@ const showProjectDetailsPage = async (req, res, next) => {
             return next(err);
         }
 
+       
+        let isVolunteering = false;
+        const userLoggedIn = !!req.session?.user; 
+
+        if (userLoggedIn) {
+            const userId = req.session.user.user_id;
+            isVolunteering = await isUserVolunteering(projectId, userId);
+        }
+
         res.render('project', {
             title: project.title,
             project,
-            categories
+            categories,
+            userLoggedIn,    
+            isVolunteering   
         });
     } catch (error) {
         next(error);
@@ -165,13 +179,49 @@ const processEditProjectForm = async (req, res) => {
         res.redirect(`/edit-project/${projectId}`);
     }
 };
+// =========================================================================
+// NUEVO: Procesar alta y baja de Voluntarios (W06)
+// =========================================================================
+const processAddVolunteer = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const userId = req.session.user.user_id;
+        await addVolunteer(projectId, userId);
+        req.flash('success', 'Thank you for volunteering for this project!');
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Error adding volunteer:', error);
+        req.flash('error', 'Could not register your volunteer request.');
+        res.redirect(`/project/${req.params.id}`);
+    }
+};
 
+const processRemoveVolunteer = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const userId = req.session.user.user_id;
+
+        await removeVolunteer(projectId, userId);
+        req.flash('success', 'You have successfully removed yourself from this project.');
+
+        if (req.query.source === 'dashboard') {
+            return res.redirect('/dashboard');
+        }
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Error removing volunteer:', error);
+        req.flash('error', 'Could not remove your volunteer request.');
+        res.redirect(`/project/${req.params.id}`);
+    }
+};
 export {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
     projectValidation,
-    showEditProjectForm,     
-    processEditProjectForm
+    showEditProjectForm,
+    processEditProjectForm,
+    processAddVolunteer,    
+    processRemoveVolunteer   
 };

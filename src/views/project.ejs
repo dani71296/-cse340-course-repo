@@ -20,6 +20,7 @@
                             <span style="color: #666; font-style: italic;">None</span>
                             <% } %>
         </p>
+
         <p><strong>Description:</strong>
             <%= project.description %>
         </p>
@@ -39,6 +40,35 @@
             </a>
         </p>
 
+        <div class="volunteer-section"
+            style="margin: 25px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; border: 1px solid #ddd;">
+            <% if (userLoggedIn) { %>
+                <% if (isVolunteering) { %>
+                    <p
+                        style="color: #2b7a4b; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center;">
+                        <span style="margin-right: 5px; font-size: 1.2em;">✓</span> You are volunteering for this
+                        project
+                    </p>
+                    <a href="/project/<%= project.project_id %>/unvolunteer" class="btn btn-danger"
+                        style="color: #d9534f; text-decoration: underline; font-size: 0.95em;">
+                        Remove myself as a volunteer
+                    </a>
+                    <% } else { %>
+                        <p style="margin-bottom: 10px; color: #333;">Interested in helping out with this service
+                            project?</p>
+                        <a href="/project/<%= project.project_id %>/volunteer" class="btn btn-primary"
+                            style="background-color: #0275d8; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold;">
+                            Volunteer for this project
+                        </a>
+                        <% } %>
+                            <% } else { %>
+                                <p style="font-style: italic; color: #666; margin: 0;">
+                                    Please <a href="/login"
+                                        style="text-decoration: underline; color: #0275d8; font-weight: bold;">log
+                                        in</a> to volunteer for this project.
+                                </p>
+                                <% } %>
+        </div>
         <p><a href="/projects">← Back to Upcoming Projects</a></p>
 
         <% if (user && user.role_name==='admin' ) { %>

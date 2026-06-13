@@ -22,6 +22,49 @@
                 </div>
                 <% } %>
         </div>
+
+        <section class="dashboard-volunteers" style="margin-top: 30px;">
+            <h2>My Volunteering Projects</h2>
+
+            <% if (projects && projects.length> 0) { %>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <% projects.forEach(project=> { %>
+                        <li
+                            style="padding: 15px; border: 1px solid #eee; margin-bottom: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                            <div>
+                                <h3 style="margin: 0 0 5px 0; font-size: 1.15em;">
+                                    <a href="/project/<%= project.project_id %>"
+                                        style="color: #0275d8; text-decoration: none; font-weight: bold;">
+                                        <%= project.title %>
+                                    </a>
+                                </h3>
+                                <p style="margin: 0; font-size: 0.9em; color: #666;">
+                                    <strong>Organization:</strong>
+                                    <%= project.organization_name %> |
+                                        <strong>Date:</strong>
+                                        <%= new Date(project.project_date).toLocaleDateString('en-US', { month: 'short'
+                                            , day: 'numeric' , year: 'numeric' }) %>
+                                </p>
+                            </div>
+                            <div>
+                                <a href="/project/<%= project.project_id %>/unvolunteer?source=dashboard"
+                                    style="color: #d9534f; border: 1px solid #d9534f; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.85em; font-weight: bold; transition: all 0.2s;"
+                                    onclick="return confirm('Are you sure you want to remove yourself from this project?');">
+                                    Remove
+                                </a>
+                            </div>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } else { %>
+                    <div
+                        style="padding: 20px; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 6px; margin-top: 15px;">
+                        You haven't volunteered for any projects yet. Explore the <a href="/projects"
+                            style="text-decoration: underline; font-weight: bold; color: #0275d8;">upcoming service
+                            projects</a> and join one!
+                    </div>
+                    <% } %>
+        </section>
     </main>
 
     <%- include('partials/footer') %>

@@ -117,7 +117,62 @@ const updateProject = async (id, title, description, location, date, organizatio
 
   return result.rows[0].project_id;
 };
+// ========================================
+// FUNCIONALIDAD DE VOLUNTARIADO (W06)
+// ========================================
 
+// 1. Registrar un voluntario en un proyecto
+const addVolunteer = async (projectId, userId) => {
+  const query = `
+    INSERT INTO public.project_volunteers (project_id, user_id)
+    VALUES ($1, $2)
+    ON CONFLICT (project_id, user_id) DO NOTHING
+    RETURNING project_id;
+  `;
+  const result = await db.query(query, [projectId, userId]);
+  return result.rows.length > 0;
+};
+
+// 2. Remover a un voluntario de un proyecto
+const removeVolunteer = async (projectId, userId) => {
+  const query = `
+    DELETE FROM public.project_volunteers
+    WHERE project_id = $1 AND user_id = $2
+    RETURNING project_id;
+  `;
+  const result = await db.query(query, [projectId, userId]);
+  return result.rows.length > 0;
+};
+
+// 3. Obtener todos los proyectos en los que se inscribió un usuario específico
+const getProjectsByUserVolunteer = async (userId) => {
+  const query = `
+    SELECT 
+      p.project_id, 
+      p.title, 
+      p.description, 
+      p.project_date, 
+      p.location, 
+      o.name AS organization_name
+    FROM public.project_volunteers pv
+    JOIN public.service_project p ON pv.project_id = p.project_id
+    JOIN public.organization o ON p.organization_id = o.organization_id
+    WHERE pv.user_id = $1
+    ORDER BY p.project_date ASC;
+  `;
+  const result = await db.query(query, [userId]);
+  return result.rows;
+};
+
+// 4. Verificar si un usuario específico ya es voluntario en un proyecto concreto
+const isUserVolunteering = async (projectId, userId) => {
+  const query = `
+    SELECT 1 FROM public.project_volunteers
+    WHERE project_id = $1 AND user_id = $2;
+  `;
+  const result = await db.query(query, [projectId, userId]);
+  return result.rows.length > 0;
+};
 // Recuerda agregar 'updateProject' dentro del bloque export del final:
 export {
   getAllProjects,
@@ -125,5 +180,10 @@ export {
   getUpcomingProjects,
   getProjectDetails,
   createProject,
-  updateProject // <-- Añadido aquí
+  updateProject, 
+  addVolunteer,                 
+  removeVolunteer,              
+  getProjectsByUserVolunteer, 
+  isUserVolunteering
+
 };
