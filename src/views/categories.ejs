@@ -7,7 +7,7 @@
 
         <% if (user && user.role_name==='admin' ) { %>
             <div class="actions-container">
-                <a href="/new-category" class="btn btn-primary">+ Add New Category</a>
+                <a href="/new-category" class="btn-add-category">+ Add New Category</a>
             </div>
             <% } %>
 
@@ -17,23 +17,26 @@
                 <ul class="categories-list">
                     <% if (categories && categories.length> 0) { %>
                         <% categories.forEach(category=> { %>
-                            <li>
-                                <a href="/category/<%= category.category_id %>">
-                                    <%= category.name %>
+                            <li class="category-item">
+                                <a href="/category/<%= category.category_id %>" class="category-link">
+                                    <span class="category-name">
+                                        <%= category.name %>
+                                    </span>
                                 </a>
 
-                                <% if (user && user.role_name==='admin' ) { %>
-                                    <span style="margin-left: 10px;">
-                                        <a href="/edit-category/<%= category.category_id %>"
-                                            style="text-decoration: none; font-size: 0.85em; color: #007bff; font-weight: bold;">
+                                <div class="category-actions">
+                                    <% if (user && user.role_name==='admin' ) { %>
+                                        <a href="/edit-category/<%= category.category_id %>" class="btn-edit-category">
                                             ✏️ Edit
                                         </a>
-                                    </span>
-                                    <% } %>
+                                        <% } else { %>
+                                            <span class="category-arrow">→</span>
+                                            <% } %>
+                                </div>
                             </li>
                             <% }); %>
                                 <% } else { %>
-                                    <li>No categories found.</li>
+                                    <li class="no-categories">No categories found.</li>
                                     <% } %>
                 </ul>
     </main>

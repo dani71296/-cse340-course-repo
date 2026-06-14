@@ -222,3 +222,488 @@ footer {
     background-color: #e2e3e5;
     color: #383d41;
 }
+/* ==========================================================================
+   Sección de Organizaciones Socias (W06)
+   ========================================================================== */
+
+/* Limpia los estilos por defecto de la lista en la tarjeta */
+.org-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 1rem 0;
+}
+
+/* Flexbox organiza el logo y el texto lado a lado en horizontal */
+.org-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #e2e8f0;
+    /* Línea divisoria sutil */
+}
+
+/* Evita el último borde divisorio para mantener limpia la tarjeta */
+.org-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Control estricto del tamaño del logo para que mantenga simetría */
+.org-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    /* Evita que el logo se estire o deforme */
+    flex-shrink: 0;
+    /* Evita que flexbox aplaste la imagen */
+}
+
+/* Contenedor del texto alineado verticalmente */
+.org-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.org-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.org-info h3 a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    /* Usa tu azul profundo */
+    transition: color 0.2s ease;
+}
+
+.org-info h3 a:hover {
+    color: var(--accent-blue);
+    /* Cambia al azul brillante en hover */
+    text-decoration: underline;
+}
+
+.org-info p {
+    margin: 0;
+    color: #4b5563;
+    /* Gris suave legible */
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   Formularios de Autenticación (Register / Login)
+   ========================================================================== */
+
+/* Contenedor del formulario: los inputs se organizan en columna vertical */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+/* Manejo de la etiqueta y el input en bloques independientes */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--dark-text);
+}
+
+/* Estilo moderno para las cajas de texto */
+.form-group input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: var(--white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    /* Obliga a los inputs a alinearse con el mismo ancho */
+}
+
+/* Efecto de enfoque (focus) dinámico */
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Botón de acción principal alineado al estilo de la app */
+.btn-submit {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+.btn-submit:hover {
+    background-color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   Sección de Proyectos de Servicio (Upcoming Projects - W06)
+   ========================================================================== */
+
+/* Contenedor principal de la lista */
+.projects-grid {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Tarjeta individual del proyecto */
+.project-card-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    gap: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.project-card-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: var(--accent-blue);
+}
+
+/* Insignia / Badge de la Fecha */
+.project-date-badge {
+    background-color: var(--light-bg);
+    border-left: 4px solid var(--accent-blue);
+    padding: 0.5rem 0.8rem;
+    border-radius: 0 6px 6px 0;
+    min-width: 125px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.project-date-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+/* Bloque central de información */
+.project-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+}
+
+.project-card-content h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.project-card-content h3 a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    transition: color 0.2s ease;
+}
+
+.project-card-content h3 a:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+/* Texto de la organización partner */
+.project-card-org {
+    margin: 0 !important;
+    /* Forza a ignorar el margen general de p */
+    font-size: 0.9rem !important;
+    color: #64748b;
+}
+
+.project-card-org a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.project-card-org a:hover {
+    text-decoration: underline;
+}
+
+/* Elementos visuales y de control */
+.project-card-arrow {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    user-select: none;
+}
+
+.no-projects {
+    list-style: none;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Botones de control (Admin) */
+.btn-add-project {
+    display: inline-block;
+    background-color: #10b981;
+    /* Verde esmeralda moderno */
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.btn-add-project:hover {
+    background-color: #059669;
+}
+
+.btn-edit-categories {
+    display: inline-block;
+    background-color: var(--light-bg);
+    color: var(--primary-blue);
+    border: 1px solid #cbd5e1;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-categories:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+/* Ajustes responsivos para móviles */
+@media (max-width: 640px) {
+    .project-card-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .project-date-badge {
+        width: 100%;
+        border-radius: 4px;
+        border-left: none;
+        border-top: 4px solid var(--accent-blue);
+        text-align: left;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .project-card-arrow {
+        display: none;
+        /* Oculta la flechita en móviles */
+    }
+}
+
+/* ==========================================================================
+   Sección de Categorías de Servicio (W06)
+   ========================================================================== */
+
+.categories-list {
+    list-style: none;
+    /* Quita los puntos negros */
+    padding: 0;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* El contenedor del renglón completo */
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--light-bg);
+    border-left: 5px solid var(--accent-blue);
+    /* Tu línea azul insignia */
+    border-radius: 0 6px 6px 0;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto hover al pasar el cursor sobre la categoría */
+.category-item:hover {
+    background-color: #f1f5f9;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo para que el texto de la categoría use todo el espacio cliqueable */
+.category-link {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 600;
+    flex: 1;
+    /* Ocupa todo el ancho restante a la izquierda */
+}
+
+.category-item:hover .category-name {
+    color: var(--primary-blue);
+}
+
+/* Contenedor del botón Edit o la flechita */
+.category-actions {
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.category-arrow {
+    color: #cbd5e1;
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.category-item:hover .category-arrow {
+    color: var(--accent-blue);
+}
+
+/* Botón Edit estilizado como un botón secundario limpio */
+.btn-edit-category {
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    background-color: var(--white);
+    border: 1px solid #cbd5e1;
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-category:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+
+.btn-add-category {
+    display: inline-block;
+    background-color: var(--accent-blue);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.btn-add-category:hover {
+    background-color: var(--primary-blue);
+}
+
+.no-categories {
+    list-style: none;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   SOPORTE RESPONSIVO GLOBAL (Móviles y Tablets)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  
+    main {
+        margin: 1rem;
+   
+        padding: 1.5rem 1.2rem;
+     
+        border-radius: 6px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+     
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+   
+    .org-item {
+        flex-direction: column;
+       
+        align-items: flex-start;
+       
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .org-logo {
+        width: 60px;
+       
+        height: 60px;
+    }
+
+
+    .category-item {
+        flex-direction: row;
+     
+        align-items: center;
+    }
+
+    .category-link {
+        padding: 0.8rem 1rem;
+   
+    }
+
+    .btn-edit-category {
+        padding: 4px 8px;
+      
+        font-size: 0.8rem;
+    }
+
+    .auth-form {
+        gap: 1rem;
+
+    }
+
+    .form-group input {
+        padding: 0.65rem;
+        font-size: 16px;
+
+    }
+
+    .btn-submit {
+        padding: 0.65rem;
+    }
+}

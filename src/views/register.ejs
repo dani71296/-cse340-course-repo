@@ -4,7 +4,7 @@
             <%= title %>
         </h1>
 
-        <form action="/register" method="POST">
+        <form action="/register" method="POST" class="auth-form">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required />
@@ -20,7 +20,7 @@
                 <input type="password" id="password" name="password" required />
             </div>
 
-            <button type="submit">Register</button>
+            <button type="submit" class="btn-submit">Register</button>
         </form>
     </main>
     <%- include('partials/footer') %>

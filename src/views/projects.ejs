@@ -2,8 +2,7 @@
     <main>
         <% if (user && user.role_name==='admin' ) { %>
             <p>
-                <a href="/new-project"
-                    style="display: inline-block; background-color: #28a745; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; margin-bottom: 15px;">
+                <a href="/new-project" class="btn-add-project">
                     ➕ Add a New Service Project
                 </a>
             </p>
@@ -13,35 +12,47 @@
                     <%= title %>
                 </h1>
 
-                <ul>
+                <ul class="projects-grid">
                     <% if (projects && projects.length> 0) { %>
                         <% projects.forEach(project=> { %>
-                            <li style="margin-bottom: 15px;">
-                                <strong>
-                                    <%= new Date(project.project_date).toLocaleDateString('en-US', { month: 'short' ,
-                                        day: 'numeric' , year: 'numeric' }) %>:
-                                </strong>
+                            <li class="project-card-item">
 
-                                <a href="/project/<%= project.project_id %>" style="font-weight: bold;">
-                                    <%= project.title %>
-                                </a>
+                                <div class="project-date-badge">
+                                    <span class="project-date-text">
+                                        <%= new Date(project.project_date).toLocaleDateString('en-US', { month: 'short'
+                                            , day: 'numeric' , year: 'numeric' }) %>
+                                    </span>
+                                </div>
 
-                                (<a href="/organization/<%= project.organization_id %>">
-                                    <%= project.organization_name %>
-                                </a>)
+                                <div class="project-card-content">
+                                    <h3>
+                                        <a href="/project/<%= project.project_id %>">
+                                            <%= project.title %>
+                                        </a>
+                                    </h3>
+                                    <p class="project-card-org">
+                                        Partnered with:
+                                        <a href="/organization/<%= project.organization_id %>">
+                                            <%= project.organization_name %>
+                                        </a>
+                                    </p>
+                                </div>
 
                                 <% if (user && user.role_name==='admin' ) { %>
-                                    <span style="margin-left: 10px;">
+                                    <div class="project-card-admin-actions">
                                         <a href="/assign-categories/<%= project.project_id %>"
-                                            style="display: inline-block; background-color: #007bff; color: white; padding: 3px 8px; border-radius: 4px; text-decoration: none; font-size: 0.85em; font-weight: bold;">
-                                            ✏️ Edit Categories
+                                            class="btn-edit-categories">
+                                            ✏️ Categories
                                         </a>
-                                    </span>
-                                    <% } %>
+                                    </div>
+                                    <% } else { %>
+                                        <span class="project-card-arrow">→</span>
+                                        <% } %>
+
                             </li>
                             <% }); %>
                                 <% } else { %>
-                                    <li>No hay proyectos disponibles en este momento.</li>
+                                    <li class="no-projects">No upcoming service projects available at the moment.</li>
                                     <% } %>
                 </ul>
     </main>
